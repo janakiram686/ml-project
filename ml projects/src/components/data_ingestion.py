@@ -7,6 +7,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformation,DataTransformationConfig
+logging.basicConfig(level=logging.INFO)
+
 @dataclass
 class DataIngestionConfig:
     train_data_path: str=os.path.join("artifacts","train.csv")
@@ -24,7 +27,7 @@ class DataIngestion:
             project_root = os.path.abspath(os.path.join(current_dir, "../../"))  # Go up 3 levels
             file_path = os.path.join(project_root, "notebook", "data", "stud.csv")
 
-# Read the CSV file
+            # Read the CSV file
             df = pd.read_csv(file_path)
             logging.info("Read the dataset as dataframe")
 
@@ -50,4 +53,8 @@ class DataIngestion:
         
 if __name__=="__main__":
     obj=DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data,test_data=obj.initiate_data_ingestion()
+
+    data_transformation=DataTransformation()
+    data_transformation.initiate_data_transformation(train_data,test_data)
+

@@ -1,5 +1,6 @@
 import sys
 import logging
+from src.logger import logging
 
 def error_message_details(error, error_detail: sys):
     _, _, exc_tb = error_detail.exc_info()
@@ -11,7 +12,7 @@ def error_message_details(error, error_detail: sys):
 
 
 class CustomException(Exception):
-    def __init__(self, error_message, error_details):  # Fixed typo
+    def __init__(self, error_message, error_details):
         super().__init__(error_message)
         self.error_message = error_message_details(error_message, error_detail=error_details)
 
@@ -24,6 +25,5 @@ if __name__ == "__main__":
         a = 10 / 0
     except Exception as e:
         logging.basicConfig(level=logging.INFO)
-       
-        raise CustomException(e, sys) 
         logging.info("divide by zero")
+        raise CustomException(e, sys)
